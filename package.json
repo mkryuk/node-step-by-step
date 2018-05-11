@@ -1,0 +1,29 @@
+{
+  "name": "node-step-by-step",
+  "version": "1.0.0",
+  "description": "simple nodejs express web application architecture example",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "start:dev": "set DEBUG=app* && node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "architecture"
+  ],
+  "author": "mkryuk@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "debug": "^3.1.0",
+    "express": "^4.16.3",
+    "mongoose": "^5.1.0",
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0"
+  }
+}
