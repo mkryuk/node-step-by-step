@@ -2,10 +2,10 @@
   "name": "node-step-by-step",
   "version": "1.0.0",
   "description": "simple nodejs express web application architecture example",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node app.js",
-    "start:dev": "set DEBUG=app* && node app.js",
+    "start": "node server.js",
+    "start:dev": "set DEBUG=app* && node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
