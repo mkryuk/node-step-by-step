@@ -1,0 +1,13 @@
+[
+  {
+    "id": "0",
+    "password": "5af56ea3f28875f68912b648",
+    "age": "38",
+    "name": {
+      "first": "Bradley",
+      "last": "Dixon"
+    },
+    "company": "VITRICOMP",
+    "email": "bradley.dixon@vitricomp.domain"
+  }
+]

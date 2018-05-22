@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "start:dev": "set DEBUG=app* && node server.js",
-    "test": "mocha tests/"
+    "start:dev": "set DEBUG=app*&&node server.js",
+    "test": "set NODE_ENV=test&&mocha tests/"
   },
   "keywords": [
     "nodejs",
