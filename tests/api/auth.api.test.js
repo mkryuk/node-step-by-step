@@ -1,6 +1,6 @@
-var supertest = require('supertest');
-var app = require('../app');
-var expect = require('expect');
+const app = require('../../app');
+const expect = require('expect');
+const supertest = require('supertest');
 
 describe('/login API tests', () => {
 

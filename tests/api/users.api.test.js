@@ -1,6 +1,8 @@
-var supertest = require('supertest');
-var app = require('../app');
-var expect = require('expect');
+const app = require('../../app');
+const expect = require('expect');
+const supertest = require('supertest');
+const { tokenService } = require('../../services/token.service');
+const { userService } = require('../../services/user.service');
 
 describe('/users API tests', () => {
 
@@ -25,7 +27,7 @@ describe('/users API tests', () => {
         expect(res.body.error).toBe(undefined);
         expect(res.body).toBeDefined();
         expect(res.body.user).toBeDefined();
-        expect(res.body.user.id).toBe("0");
+        expect(res.body.user.id).toBe('0');
         done();
       });
   });
@@ -33,17 +35,15 @@ describe('/users API tests', () => {
   describe('users authorized only section', () => {
     let token = '';
     beforeEach((done) => {
-      supertest(app)
-        .post('/api/login')
-        .set('Content-Type', 'application/json')
-        .send({
-          email: "bradley.dixon@vitricomp.domain",
-          password: "5af56ea3f28875f68912b648"
-        })
-        .end((err, res) => {
-          token = res.body.token;
-          done();
-        });
+      userService.getUserById('0')
+      .then((user) => {
+        return user
+      })
+      .then((user) => tokenService.createToken(user))
+      .then((_token) => {
+        token = _token;
+        done();
+      });
     });
 
     it('should get single user full info', (done) => {
@@ -56,7 +56,7 @@ describe('/users API tests', () => {
           expect(res.body.error).toBe(undefined);
           expect(res.body).toBeDefined();
           expect(res.body.user).toBeDefined();
-          expect(res.body.user.id).toBe("0");
+          expect(res.body.user.id).toBe('0');
           done();
         });
     });

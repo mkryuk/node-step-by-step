@@ -19,6 +19,7 @@
         "--timeout",
         "999999",
         "--colors",
+        "--recursive",
         "${workspaceFolder}/tests"
       ],
       "internalConsoleOptions": "openOnSessionStart"

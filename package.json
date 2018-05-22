@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "start:dev": "set DEBUG=app*&&node server.js",
-    "test": "set NODE_ENV=test&&mocha tests/"
+    "test": "set NODE_ENV=test&&mocha --recursive tests/"
   },
   "keywords": [
     "nodejs",

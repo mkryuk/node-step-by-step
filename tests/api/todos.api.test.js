@@ -1,33 +1,40 @@
-var supertest = require('supertest');
-var app = require('../app');
-var expect = require('expect');
+const app = require('../../app');
+const expect = require('expect');
+const supertest = require('supertest');
+const { todoService } = require('../../services/todo.service');
+const { tokenService } = require('../../services/token.service');
+const { userService } = require('../../services/user.service');
 
 describe('/todos API tests', () => {
 
   describe('todos auth section', () => {
     let token = '';
+    let user = {};
     let todo = {};
     beforeEach((done) => {
-      supertest(app)
-        .post('/api/login')
-        .set('Content-Type', 'application/json')
-        .send({
-          email: "bradley.dixon@vitricomp.domain",
-          password: "5af56ea3f28875f68912b648"
+      userService.getUserById('0')
+        .then((_user) => {
+          user = _user;
         })
-        .end((err, res) => {
-          token = res.body.token;
-          supertest(app).post('/api/todos')
-            .set('Content-Type', 'application/json')
-            .set('Authorization', `Bearer ${token}`)
-            .send({
-              "title": "THIS IS A TEST DATA",
-              "completed": false
-            })
-            .end((err, res) => {
-              todo = res.body.todo;
-              done();
-            });
+        .then(() => tokenService.createToken(user))
+        .then((_token) => {
+          token = _token;
+        })
+        .then(() => todoService.addTodo({
+          "title": "THIS IS A TEST DATA",
+          "completed": false,
+          "userId": user.id
+        }))
+        .then((_todo) => {
+          todo = _todo;
+          done();
+        });
+    });
+
+    afterEach((done) => {
+      todoService.removeAllTodos(user.id)
+        .then(() => {
+          done();
         });
     });
 
@@ -86,9 +93,6 @@ describe('/todos API tests', () => {
       supertest(app).delete('/api/todos/' + todo.id)
         .set('Content-Type', 'application/json')
         .set('Authorization', `Bearer ${token}`)
-        .send({
-          "completed": false
-        })
         .expect(200)
         .end((err, res) => {
           expect(err).toEqual(null);
