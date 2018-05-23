@@ -1,4 +1,5 @@
 const { todoFsResource } = require('../resources/todo.resources/todo.fs.resource');
+const { todoMongoResource } = require('../resources/todo.resources/todo.mongo.resource');
 
 class TodoService {
   constructor(todoResource) {
@@ -37,5 +38,5 @@ class TodoService {
 
 module.exports = {
   TodoService,
-  todoService: new TodoService(todoFsResource)
+  todoService: new TodoService(todoMongoResource)
 };
