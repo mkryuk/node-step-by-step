@@ -5,13 +5,40 @@
   ],
   "tasks": [
     {
-      "label": "run",
+      "label": "start",
       "group": {
         "kind": "build",
         "isDefault": true
       },
+      "dependsOn": [
+        "build",
+        "run"
+      ],
+      "presentation": {
+        "reveal": "never",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build",
+      "group": "build",
       "type": "npm",
-      "script": "start:dev",
+      "script": "watch",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "silent",
+        "panel": "new"
+      },
+      "problemMatcher": [
+        "$tsc-watch"
+      ]
+    },
+    {
+      "label": "run",
+      "group": "build",
+      "type": "npm",
+      "script": "serve:dev",
       "isBackground": true,
       "presentation": {
         "reveal": "silent",
@@ -19,5 +46,13 @@
       },
       "problemMatcher": []
     },
+    {
+      "type": "npm",
+      "script": "lint",
+      "problemMatcher": {
+        "base": "$tslint5",
+        "fileLocation": "relative"
+      }
+    }
   ]
 }

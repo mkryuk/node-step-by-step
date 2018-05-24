@@ -20,7 +20,7 @@
         "999999",
         "--colors",
         "--recursive",
-        "${workspaceFolder}/tests"
+        "${workspaceFolder}/dist/tests"
       ],
       "internalConsoleOptions": "openOnSessionStart"
     },
@@ -28,7 +28,15 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceFolder}/server.js"
+      "program": "${workspaceFolder}/dist/server.js"
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach to Program",
+      "sourceMaps": true,
+      "restart": true,
+      "port": 9229
     },
   ]
 }
