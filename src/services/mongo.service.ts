@@ -1,10 +1,15 @@
 import * as debug from 'debug';
+import { injectable } from 'inversify';
 import * as mongoose from 'mongoose';
 import { config } from '../config';
 
+@injectable()
 export class MongoConnectionService {
   public readonly connection: mongoose.Connection;
-  constructor(private connectionString: string, private _debug: debug.IDebugger) {
+  private readonly _debug: debug.IDebugger;
+  constructor(private connectionString: string) {
+    this.connectionString = connectionString || config.MONGO_CONNECTION_STRING;
+    this._debug = debug('app:mongo');
     // Mongoose: mpromise (mongoose's default promise library) is deprecated,
     // plug in your own promise library instead: http://mongoosejs.com/docs/promises.html
     // https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/mongoose#promises
@@ -47,5 +52,3 @@ export class MongoConnectionService {
     });
   }
 }
-
-export const mongoConnectionService = new MongoConnectionService(config.MONGO_CONNECTION_STRING, debug('app:mongo'));

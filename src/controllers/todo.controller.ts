@@ -1,11 +1,20 @@
-import { NextFunction, Request, Response } from 'express';
-import { todoService, TodoService } from '../services/todo.service';
+import { NextFunction, Response } from 'express';
+import { inject } from 'inversify';
+import {
+  controller, httpDelete, httpGet, httpPost, httpPut,
+} from 'inversify-express-utils';
+import { IRequest } from '../interfaces/irequest';
+import { authMiddlware } from '../middlewares/auth.middleware';
+import { TodoService } from '../services/todo.service';
+import { TYPES } from '../services/types';
 
+@controller('/todos')
 export class TodoController {
-  constructor(private _todoService: TodoService) {
+  constructor(@inject(TYPES.TodoService) private _todoService: TodoService) {
   }
 
-  public getAllTodos(req: Request, res: Response, next: NextFunction) {
+  @httpGet('/', authMiddlware.bearerStrategy)
+  public getAllTodos(req: IRequest, res: Response, next: NextFunction) {
     const completed = req.query.completed !== undefined ? req.query.completed === 'true' : null;
     return this._todoService.getAllTodos(req.user.id, completed)
       .then((userTodos) => {
@@ -16,7 +25,8 @@ export class TodoController {
       .catch(next);
   }
 
-  public addTodo(req: Request, res: Response, next: NextFunction) {
+  @httpPost('/', authMiddlware.bearerStrategy)
+  public addTodo(req: IRequest, res: Response, next: NextFunction) {
     const _todo = req.body;
     _todo.userId = req.user.id;
     return this._todoService.addTodo(_todo)
@@ -26,7 +36,8 @@ export class TodoController {
       .catch(next);
   }
 
-  public removeTodo(req: Request, res: Response, next: NextFunction) {
+  @httpDelete('/:id', authMiddlware.bearerStrategy)
+  public removeTodo(req: IRequest, res: Response, next: NextFunction) {
     const id = req.params.id;
     return this._todoService.removeTodo(id, req.user.id)
       .then((todo) => {
@@ -35,7 +46,8 @@ export class TodoController {
       .catch(next);
   }
 
-  public changeComplete(req: Request, res: Response, next: NextFunction) {
+  @httpPut('/:id', authMiddlware.bearerStrategy)
+  public changeComplete(req: IRequest, res: Response, next: NextFunction) {
     const id = req.params.id;
     return this._todoService.changeComplete(id, req.user.id, req.body.completed)
       .then((todo) => {
@@ -44,5 +56,3 @@ export class TodoController {
       .catch(next);
   }
 }
-
-export const todoController = new TodoController(todoService);

@@ -1,14 +1,17 @@
+import { inject, injectable } from 'inversify';
 import { Model, Schema } from 'mongoose';
 import { ITodo } from '../../interfaces/itodo';
 import { ITodoModel } from '../../interfaces/itodo.model';
 import { todoSchema } from '../../schemas/todo.schema';
-import { mongoConnectionService, MongoConnectionService } from '../../services/mongo.service';
+import { MongoConnectionService } from '../../services/mongo.service';
+import { TYPES } from '../../services/types';
 import { ITodoResource } from './itodo.resource';
 
+@injectable()
 export class TodoMongoResource implements ITodoResource {
   private Todo: Model<ITodoModel>;
-  constructor(_mongoConnectionService: MongoConnectionService, _todoSchema: Schema) {
-    this.Todo = _mongoConnectionService.connection.model('Todo', _todoSchema);
+  constructor(@inject(TYPES.MongoConnectionService)_mongoConnectionService: MongoConnectionService) {
+    this.Todo = _mongoConnectionService.connection.model('Todo', todoSchema);
   }
 
   public getAllTodos(userId: string) {
@@ -86,5 +89,3 @@ export class TodoMongoResource implements ITodoResource {
     };
   }
 }
-
-export const todoMongoResource = new TodoMongoResource(mongoConnectionService, todoSchema);

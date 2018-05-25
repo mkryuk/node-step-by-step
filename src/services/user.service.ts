@@ -1,8 +1,11 @@
+import { inject, injectable } from 'inversify';
 import { IUser } from '../interfaces/iuser';
-import { userFsResource, UserFsResource } from '../resources/user.resources/user.fs.resource';
+import { TYPES } from '../resources/types';
+import { UserFsResource } from '../resources/user.resources/user.fs.resource';
 
+@injectable()
 export class UserService {
-  constructor(private userResource: UserFsResource) {
+  constructor(@inject(TYPES.UserResource) private userResource: UserFsResource) {
   }
 
   public getUserById(id: string) {
@@ -26,5 +29,3 @@ export class UserService {
       });
   }
 }
-
-export const userService = new UserService(userFsResource);

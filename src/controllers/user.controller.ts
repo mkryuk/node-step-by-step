@@ -1,10 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
-import { userService, UserService } from '../services/user.service';
+import { inject } from 'inversify';
+import { controller, httpGet } from 'inversify-express-utils';
+import { authMiddlware } from '../middlewares/auth.middleware';
+import { TYPES } from '../services/types';
+import { UserService } from '../services/user.service';
 
+@controller('/users')
 export class UserController {
-  constructor(private _userService: UserService) {
+  constructor(@inject(TYPES.UserService) private _userService: UserService) {
   }
 
+  @httpGet('/')
   public getAllUsers(req: Request, res: Response, next: NextFunction) {
     return this._userService.getAllUsers()
       .then((users) => {
@@ -21,6 +27,7 @@ export class UserController {
       .catch(next);
   }
 
+  @httpGet('/:id')
   public getUserById(req: Request, res: Response, next: NextFunction) {
     return this._userService.getUserById(req.params.id)
       .then((user) => {
@@ -35,6 +42,7 @@ export class UserController {
       .catch(next);
   }
 
+  @httpGet('/:id/info', authMiddlware.bearerStrategy)
   public getUserInfo(req: Request, res: Response, next: NextFunction) {
     return this._userService.getUserById(req.params.id)
       .then((user) => {
@@ -52,5 +60,3 @@ export class UserController {
       .catch(next);
   }
 }
-
-export const userController = new UserController(userService);

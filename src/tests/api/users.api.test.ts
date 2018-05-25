@@ -1,8 +1,15 @@
 import * as expect from 'expect';
 import * as supertest from 'supertest';
 import { app } from '../../app';
-import { tokenService } from '../../services/token.service';
-import { userService } from '../../services/user.service';
+import { iocContainer } from '../../ioc/ioc.config';
+import { TodoService } from '../../services/todo.service';
+import { TokenService } from '../../services/token.service';
+import { TYPES as ServicesTypes } from '../../services/types';
+import { UserService } from '../../services/user.service';
+
+const todoService = iocContainer.get<TodoService>(ServicesTypes.TodoService);
+const tokenService = iocContainer.get<TokenService>(ServicesTypes.TokenService);
+const userService = iocContainer.get<UserService>(ServicesTypes.UserService);
 
 describe('/users API tests', () => {
 

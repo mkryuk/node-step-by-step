@@ -47,6 +47,7 @@
       "problemMatcher": []
     },
     {
+      "label": "lint",
       "type": "npm",
       "script": "lint",
       "problemMatcher": {
