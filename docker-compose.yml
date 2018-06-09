@@ -1,0 +1,27 @@
+version: '3'
+services:
+  nginx:
+    build: ./nginx-ha
+    ports:
+      - "80:80"
+  node1:
+    build: .
+    environment: 
+      - NODE_ENV=production
+      - MONGO_CONNECTION_STRING=mongodb://mongo:27017/node_step_by_step
+  node2:
+    build: .
+    environment: 
+      - NODE_ENV=production
+      - MONGO_CONNECTION_STRING=mongodb://mongo:27017/node_step_by_step
+  node3:
+    build: .
+    environment: 
+      - NODE_ENV=production
+      - MONGO_CONNECTION_STRING=mongodb://mongo:27017/node_step_by_step
+  mongo:
+    image: "mongo"
+    volumes: 
+      - "dbdata:/data/db"
+volumes: 
+  dbdata:

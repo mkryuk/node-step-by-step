@@ -13,6 +13,7 @@
     "removeComments": true,
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "prod_node_modules"
   ]
 }

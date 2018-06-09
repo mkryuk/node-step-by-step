@@ -1,0 +1,15 @@
+{
+  "apps": [
+    {
+      "name": "app",
+      "script": "./dist/app.js",
+      "watch": true,
+      "exec_mode": "cluster",
+      "instances": "max",
+      "env": {
+        "NODE_ENV": "production",
+        "MONGO_CONNECTION_STRING":"mongodb://mongo:27017/node_step_by_step"
+      }
+    }
+  ]
+}
